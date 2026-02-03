@@ -27,3 +27,5 @@ Route::get('/customers', [costumercontroller::class, 'index']);
 Route::get('/customers/{id}', [costumercontroller::class, 'show']);
 Route::get('/customers/{id}/motifs', [costumercontroller::class, 'motifs']);
 Route::post('/customers', [costumercontroller::class, 'store']);
+Route::put('/customers/{id}', [costumercontroller::class, 'updateComment']);
+Route::delete('/customers/{id}', [costumercontroller::class, 'deleteComment']);

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text("email");
             $table->text("password");
             $table->text("number")->nullable();
+            $table->text("numero")->nullable();
             $table->text("pictures")->nullable();
             $table->timestamps();
         });

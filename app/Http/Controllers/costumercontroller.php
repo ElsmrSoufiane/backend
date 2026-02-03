@@ -96,4 +96,32 @@ class costumercontroller extends Controller
         ], 500);
     }
 }
+function updateComment(Request $request, $id)
+{
+    $motif = Motif::find($id);
+    if (!$motif) {
+        return response()->json(['message' => 'Motif not found'], 404);
+    }
+
+    $validatedData = $request->validate([
+        'description' => 'required|string',
+    ]);
+
+    $motif->update($validatedData);
+
+    return response()->json(['message' => 'Motif updated successfully', 'motif' => $motif], 200);
 }
+
+function deleteComment($id)
+{
+    $motif = Motif::find($id);
+    if (!$motif) {
+        return response()->json(['message' => 'Motif not found'], 404);
+    }
+
+    $motif->delete();
+
+    return response()->json(['message' => 'Motif deleted successfully'], 200);
+
+
+}}
