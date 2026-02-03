@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->text("name");
-            $table->text("email");
-            $table->text("password");
-            $table->text("number")->nullable();
-            $table->text("numero")->nullable();
+            $table->string("name");
+            $table->string("email")->unique(); // Changed to string and unique
+            $table->string("password");
+            $table->string("number")->nullable();
+            $table->string("numero")->nullable();
             $table->text("pictures")->nullable();
+            $table->boolean("verified")->default(false);
+            $table->string("verification_token", 64)->nullable(); // Added length for token
+            $table->timestamp('email_verified_at')->nullable(); // Added this column
             $table->timestamps();
+            
+            // Add index for verification token for better performance
+            $table->index('verification_token');
+            $table->index('email_verified_at');
         });
     }
 

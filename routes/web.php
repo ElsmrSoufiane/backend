@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
 use App\Http\Controllers\costumercontroller;
-
+use App\Http\Controllers\mailing;
 
 
 Route::options('/{any}', function () {
@@ -29,3 +29,16 @@ Route::get('/customers/{id}/motifs', [costumercontroller::class, 'motifs']);
 Route::post('/customers', [costumercontroller::class, 'store']);
 Route::put('/customers/{id}', [costumercontroller::class, 'updateComment']);
 Route::delete('/customers/{id}', [costumercontroller::class, 'deleteComment']);
+
+Route::post('/send-verification-email', [mailing::class, 'sendVerificationEmail']);
+Route::get('/verify-email/{token}', [mailing::class, 'verifyEmail']);
+Route::post('/check-verification', [mailing::class, 'checkVerification']);
+
+Route::options('/{any}', function () {
+    return response()->json([], 200, [
+        'Access-Control-Allow-Origin' => 'http://localhost:3000',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With',
+        'Access-Control-Max-Age' => '86400',
+    ]);
+})->where('any', '.*'); 
