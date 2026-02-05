@@ -94,57 +94,24 @@ public function verifyEmail($token)
         $user = User::where('verification_token', $token)->first();
 
         if (!$user) {
-            return $this->addCorsHeaders(response()->json([
-                'success' => false,
-                'message' => 'Invalid verification token'
-            ], 404));
+            // Just redirect on invalid token
+            return redirect('http://localhost:3000');
         }
 
-        // Check if already verified
-        if ($user->isVerified()) {
-            return $this->addCorsHeaders(response()->json([
-                'success' => true,
-                'message' => 'Email already verified'
-            ]));
+        // Mark as verified if not already
+        if (!$user->verified) {
+            $user->verified = true;
+            $user->email_verified_at = now();
+            $user->verification_token = null;
+            $user->save();
         }
 
-        // Use the built-in method to mark as verified
-        $user->markEmailAsVerified();
-
-        // Alternative: Manual update
-        // $user->verified = true;
-        // $user->email_verified_at = now();
-        // $user->verification_token = null;
-        // $user->save();
-
-        Log::info('Email verified successfully', [
-            'user_id' => $user->id,
-            'email' => $user->email,
-            'verified_at' => $user->email_verified_at
-        ]);
-
-        return $this->addCorsHeaders(response()->json([
-            'success' => true,
-            'message' => 'Email verified successfully!',
-            'data' => [
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'name' => $user->name,
-                'verified_at' => $user->email_verified_at
-            ]
-        ]));
+        // Simple redirect to frontend
+        return redirect('http://localhost:3000');
 
     } catch (\Exception $e) {
-        Log::error('Email verification failed', [
-            'token' => $token,
-            'error' => $e->getMessage()
-        ]);
-
-        return $this->addCorsHeaders(response()->json([
-            'success' => false,
-            'message' => 'Verification failed. Please try again.',
-            'error' => $e->getMessage()
-        ], 500));
+        // Still redirect even on error
+        return redirect('http://localhost:3000');
     }
 }
     /**

@@ -13,7 +13,7 @@ class Authcontroller extends Controller
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
     //
-   public function register(Request $request){
+public function register(Request $request){
     \Log::info('📝 REGISTER REQUEST DATA:', $request->all());
     
     try {
@@ -21,9 +21,9 @@ class Authcontroller extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'number' => 'nullable|string|unique:users', // Try nullable
-            'numero' => 'nullable|string|unique:users', // Accept both
-            'pictures' => 'nullable|string',
+            'number' => 'nullable|string|unique:users',
+            'numero' => 'nullable|string|unique:users',
+            'profile_picture' => 'nullable|string', // Just accept URL string
         ]);
 
         \Log::info('✅ VALIDATED DATA:', $validatedData);
@@ -34,20 +34,17 @@ class Authcontroller extends Controller
         // Hash password
         $validatedData['password'] = bcrypt($validatedData['password']);
         
-        // Prepare user data
+        // Prepare user data - just store whatever URL is sent
         $userData = [
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => $validatedData['password'],
             'number' => $phoneNumber,
-            'pictures' => $validatedData['pictures'] ?? null,
+            'pictures' => $validatedData['profile_picture'] ?? null, // Store the URL
+            'verification_token' => \Illuminate\Support\Str::random(64),
         ];
         
-        \Log::info('📦 CREATING USER WITH:', $userData);
-        
         $user = User::create($userData);
-        
-        \Log::info('🎉 USER CREATED:', $user->toArray());
 
         return response()->json([
             'message' => 'User registered successfully', 
@@ -55,17 +52,11 @@ class Authcontroller extends Controller
         ], 201);
         
     } catch (\Exception $e) {
-        \Log::error('❌ REGISTRATION ERROR:', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString()
-        ]);
+        \Log::error('❌ REGISTRATION ERROR:', ['message' => $e->getMessage()]);
         
         return response()->json([
-            'message' => 'Registration failed: ' . $e->getMessage(),
-            'error' => env('APP_DEBUG') ? $e->getMessage() : 'Server error',
-            'full_error' => env('APP_DEBUG') ? $e->getTraceAsString() : null
+            'message' => 'Registration failed',
+            'error' => $e->getMessage()
         ], 500);
     }
 }
