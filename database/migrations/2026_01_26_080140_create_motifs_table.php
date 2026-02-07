@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('motifs', function (Blueprint $table) {
             $table->id();
             $table->text("description");
-            $table->foreignId("user_id")->constrained("users");
+            $table->text("evidence_image")->nullable(); // Added for evidence image URL
+            $table->foreignId("user_id")->constrained("userss");
             $table->foreignId("costumer_id")->constrained("costumers");
-        
             $table->timestamps();
         });
     }

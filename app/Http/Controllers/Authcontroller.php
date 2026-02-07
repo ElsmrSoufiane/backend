@@ -19,10 +19,10 @@ public function register(Request $request){
     try {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:userss', // Changed from 'users' to 'userss'
             'password' => 'required|string|min:8',
-            'number' => 'nullable|string|unique:users',
-            'numero' => 'nullable|string|unique:users',
+            'number' => 'nullable|string|unique:userss',
+            'numero' => 'nullable|string|unique:userss',
             'profile_picture' => 'nullable|string', // Just accept URL string
         ]);
 
