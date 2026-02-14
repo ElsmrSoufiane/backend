@@ -166,7 +166,7 @@ class AuthController extends Controller
         $user->save();
         
         // Create reset URL
-        $resetUrl = 'http://localhost:3000/reset-password?token=' . $resetToken . '&email=' . urlencode($user->email);
+        $resetUrl = 'https://www.codintelligence.com/reset-password?token=' . $resetToken . '&email=' . urlencode($user->email);
         
         // Send email with reset link
         try {
