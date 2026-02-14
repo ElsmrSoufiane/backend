@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\costumerController;
+use App\Http\Controllers\CostumerController;
 use App\Http\Controllers\mailing;
 
 // CORS preflight
