@@ -18,7 +18,7 @@ class mailing extends Controller
      */
     private function addCorsHeaders($response)
     {
-        return $response->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+        return $response->header('Access-Control-Allow-Origin', 'https://www.codintelligence.com')
                        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
                        ->header('Access-Control-Allow-Credentials', 'true');
@@ -92,7 +92,7 @@ class mailing extends Controller
             $user = User::where('verification_token', $token)->first();
 
             if (!$user) {
-                return redirect('http://localhost:3000');
+                return redirect('https://www.codintelligence.com');
             }
 
             if (!$user->verified) {
@@ -102,10 +102,10 @@ class mailing extends Controller
                 $user->save();
             }
 
-            return redirect('http://localhost:3000/verify-email/success');
+            return redirect('https://www.codintelligence.com/verify-email/success');
 
         } catch (\Exception $e) {
-            return redirect('http://localhost:3000');
+            return redirect('https://www.codintelligence.com');
         }
     }
     
