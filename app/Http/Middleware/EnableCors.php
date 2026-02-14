@@ -18,7 +18,7 @@ class EnableCors
         if ($request->isMethod('OPTIONS')) {
             \Log::info('Handling OPTIONS preflight');
             return response('', 200)
-                ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+                ->header('Access-Control-Allow-Origin', 'https://www.codintelligence.com')
                 ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
                 ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept')
                 ->header('Access-Control-Allow-Credentials', 'true')
@@ -31,7 +31,7 @@ class EnableCors
         \Log::info('Setting CORS headers for response');
         
         // Add CORS headers
-        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        $response->headers->set('Access-Control-Allow-Origin', 'https://www.codintelligence.com');
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN, Accept');
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
