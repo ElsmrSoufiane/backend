@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Http;
 use App\Models\Costumer;
 use App\Models\Motif;
 use Illuminate\Http\Request;
